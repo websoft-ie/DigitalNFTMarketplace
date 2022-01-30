@@ -1,4 +1,6 @@
 require("@nomiclabs/hardhat-waffle")
+require('@openzeppelin/hardhat-upgrades');
+
 const fs = require('fs')
 // const privateKey = fs.readFileSync(".secret").toString().trim() || "01234567890123456789"
 

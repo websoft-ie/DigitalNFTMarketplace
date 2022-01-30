@@ -2,23 +2,32 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 pragma solidity ^0.8.3;
 
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+
 
 import "hardhat/console.sol";
 
-contract NFTMarket is ReentrancyGuard {
-  using Counters for Counters.Counter;
-  Counters.Counter private _itemIds;
-  Counters.Counter private _itemsSold;
+contract NFTMarket is Initializable, ReentrancyGuardUpgradeable {
+  using CountersUpgradeable for CountersUpgradeable.Counter;
+  CountersUpgradeable.Counter private _itemIds;
+  CountersUpgradeable.Counter private _itemsSold;
 
   address payable owner;
-  uint256 listingPrice = 0.025 ether;
+  uint256 listingPrice;
 
-  constructor() {
+  function initialize() initializer public {
     owner = payable(msg.sender);
+    listingPrice = 0.025 ether;
   }
+  /// @custom:oz-upgrades-unsafe-allow constructor
+  constructor() initializer {}  
+
+  // constructor() {
+  //   owner = payable(msg.sender);
+  // }
 
   struct MarketItem {
     uint itemId;
@@ -69,7 +78,7 @@ contract NFTMarket is ReentrancyGuard {
       false
     );
 
-    IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+    IERC721Upgradeable(nftContract).transferFrom(msg.sender, address(this), tokenId);
 
     emit MarketItemCreated(
       itemId,
@@ -93,7 +102,7 @@ contract NFTMarket is ReentrancyGuard {
     require(msg.value == price, "Please submit the asking price in order to complete the purchase");
 
     idToMarketItem[itemId].seller.transfer(msg.value);
-    IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
+    IERC721Upgradeable(nftContract).transferFrom(address(this), msg.sender, tokenId);
     idToMarketItem[itemId].owner = payable(msg.sender);
     idToMarketItem[itemId].sold = true;
     _itemsSold.increment();
