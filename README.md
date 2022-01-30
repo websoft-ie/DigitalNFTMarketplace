@@ -1,15 +1,11 @@
-# Basic Sample Hardhat Project
+## About
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+This repository implements the NFT marketplace for the digital assets like arts, collectables, tweets, unique moment pics etc.
 
-Try running some of the following tasks:
-
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+## Features
+- Next.js
+- Graph
+- Tailwind CSS
+- Solidity and Hardhat
+- Upgradeable marketplace and contracts
