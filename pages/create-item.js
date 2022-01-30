@@ -51,6 +51,7 @@ export default function CreateItem() {
   }
 
   async function createSale(url) {
+    console.log('NFT Token url:', url)
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)    
